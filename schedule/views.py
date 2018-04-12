@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import csv
 import requests
 import datetime
+from operator import itemgetter
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -19,10 +20,8 @@ class DepartureView(TemplateView):
         context = super(DepartureView, self).get_context_data(*args, **kwargs)
         # Get data from MBTA Website
         departure_data = self.get_departure_data()
-
-        context['table_headers'] = departure_data[0]
-        context['departures'] = departure_data[1:]
-        # Get update timestamp 
+        context['departures'] = departure_data
+        # Get update timestamp.
         context['timestamp'] = departure_data[1][0]
         return context
 
@@ -31,10 +30,6 @@ class DepartureView(TemplateView):
         departures_url = "http://developer.mbta.com/lib/gtrtfs/Departures.csv"
         response = requests.get(departures_url)
         cr = csv.reader(response.content.splitlines(), delimiter=str(','))
-        departures_data = list(cr)
-        # Clean data
-        for data in departures_data[1:]:
-            # Convert timestamps to ints
-            data[0] = int(data[0])
-
-        return departures_data
+        departures_data = list(cr)[1:]
+        # Sort departures data by scheduled time.
+        return sorted(departures_data, key=itemgetter(4))

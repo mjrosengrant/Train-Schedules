@@ -2,25 +2,26 @@
 
 {% block html-title %}Departure Board{% endblock%}
 {% load print_timestamp %}
-{% load print_lateness %}
+{% load departure_filters %}
 
 {% block body %}
 	<h1>Departure Board</h1>
 	<h2>Last Updated {{ timestamp|print_timestamp }}</h2>
-	<table class="table">
+	<table class="table table-striped">
 		<thead>
 			<tr>
-				{% for header in table_headers %}
-					<th>{{ header }}</th>
-				{% endfor %}
-			</tr> 
+				<th>Origin</th>	
+				<th>Trip</th>
+				<th>Destination</th>			
+				<th>Scheduled Time</th>
+				<th>Lateness</th>
+				<th>Track</th>
+				<th>Status</th>
+			</tr>
 		</thead>
 		<tbody>
 			{% for departure in departures %}
 				<tr>
-					{# Timestamp #}
-					<td>{{ departure.0|print_timestamp:True }}</td>
-					
 					{# Origin #}
 					<td>{{ departure.1 }}</td>
 					
@@ -31,7 +32,7 @@
 					<td>{{ departure.3 }}</td>
 					
 					{# Scheduled Time #}					
-					<td>{{ departure.4|print_timestamp:True }}</td>
+					<td>{{ departure.4|print_timestamp_time }}</td>
 					
 					{# Lateness #}
 					<td>{{ departure.5|print_lateness }}</td>
