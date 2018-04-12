@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import csv
 import requests
+import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -16,12 +17,15 @@ class DepartureView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(DepartureView, self).get_context_data(*args, **kwargs)
-        
         # Get data from MBTA Website
         departure_data = self.get_departure_data()
         context['table_headers'] = departure_data[0]
         context['departures'] = departure_data[1:]
 
+        # Get update timestamp 
+        context['timestamp'] = datetime.datetime \
+            .fromtimestamp(int(departure_data[1][0])) \
+            .strftime('%Y-%m-%d %H:%M')
         return context
 
     def get_departure_data(self):
@@ -31,4 +35,3 @@ class DepartureView(TemplateView):
         cr = csv.reader(response.content.splitlines(), delimiter=str(','))
         departures_table = list(cr)
         return departures_table
-
