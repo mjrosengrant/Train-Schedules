@@ -1,10 +1,12 @@
 {% extends 'schedule/base.html' %}
 
 {% block html-title %}Departure Board{% endblock%}
+{% load print_timestamp %}
+{% load print_lateness %}
 
 {% block body %}
 	<h1>Departure Board</h1>
-	<h2>Last Updated {{ timestamp }}</h2>
+	<h2>Last Updated {{ timestamp|print_timestamp }}</h2>
 	<table class="table">
 		<thead>
 			<tr>
@@ -16,9 +18,29 @@
 		<tbody>
 			{% for departure in departures %}
 				<tr>
-					{% for attribute in departure %}
-						<td>{{ attribute }}</td>
-					{% endfor %}
+					{# Timestamp #}
+					<td>{{ departure.0|print_timestamp:True }}</td>
+					
+					{# Origin #}
+					<td>{{ departure.1 }}</td>
+					
+					{# Trip #}					
+					<td>{{ departure.2 }}</td>
+					
+					{# Destination #}					
+					<td>{{ departure.3 }}</td>
+					
+					{# Scheduled Time #}					
+					<td>{{ departure.4|print_timestamp:True }}</td>
+					
+					{# Lateness #}
+					<td>{{ departure.5|print_lateness }}</td>
+					
+					{# Track #}
+					<td>{{ departure.6 }}</td>
+					
+					{# Status #}
+					<td>{{ departure.7 }}</td>
 				</tr>
 			{% endfor %}
 		</tbody>

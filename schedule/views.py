@@ -19,13 +19,11 @@ class DepartureView(TemplateView):
         context = super(DepartureView, self).get_context_data(*args, **kwargs)
         # Get data from MBTA Website
         departure_data = self.get_departure_data()
+
         context['table_headers'] = departure_data[0]
         context['departures'] = departure_data[1:]
-
         # Get update timestamp 
-        context['timestamp'] = datetime.datetime \
-            .fromtimestamp(int(departure_data[1][0])) \
-            .strftime('%Y-%m-%d %H:%M')
+        context['timestamp'] = departure_data[1][0]
         return context
 
     def get_departure_data(self):
@@ -33,5 +31,10 @@ class DepartureView(TemplateView):
         departures_url = "http://developer.mbta.com/lib/gtrtfs/Departures.csv"
         response = requests.get(departures_url)
         cr = csv.reader(response.content.splitlines(), delimiter=str(','))
-        departures_table = list(cr)
-        return departures_table
+        departures_data = list(cr)
+        # Clean data
+        for data in departures_data[1:]:
+            # Convert timestamps to ints
+            data[0] = int(data[0])
+
+        return departures_data
