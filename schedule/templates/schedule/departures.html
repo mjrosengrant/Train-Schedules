@@ -1,0 +1,25 @@
+{% extends 'schedule/base.html' %}
+
+{% block html-title %}Departure Board{% endblock%}
+
+{% block body %}
+	<h1>Departure Board</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				{% for header in table_headers %}
+					<th>{{ header }}</th>
+				{% endfor %}
+			</tr> 
+		</thead>
+		<tbody>
+			{% for departure in departures %}
+				<tr>
+					{% for attribute in departure %}
+						<td>{{ attribute }}</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
