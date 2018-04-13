@@ -1,31 +1,18 @@
-from django import template
 import datetime
+
+from django import template
 register = template.Library()
 
-
-def get_datetime_from_timestamp(timestamp):
-    """Converts Unix timestamp to a datetime object.
     
-    Filters using this function decide the format to return it in.
+@register.filter(name='print_timestamp')
+def print_timestamp(timestamp):
+    """Converts Unix timestamp to a datetime object.
     """
     try:
         ts = int(timestamp)
     except ValueError:
         return None
     return datetime.datetime.fromtimestamp(ts)
-    
-
-@register.filter(name='print_timestamp_time')
-def print_timestamp_time(timestamp):
-    """Returns the time from a Unix timestamp."""
-    dt = get_datetime_from_timestamp(timestamp)
-    if not dt:
-        return None
-    return dt.strftime("%I:%M%p")
-    
-@register.filter(name='print_timestamp')
-def print_timestamp(timestamp):
-    return get_datetime_from_timestamp(timestamp)
 
 
 @register.filter(name='print_lateness')
