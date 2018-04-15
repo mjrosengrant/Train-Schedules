@@ -1,0 +1,39 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Origin</th>	
+			<th>Trip</th>
+			<th>Destination</th>			
+			<th>Scheduled Time</th>
+			<th>Lateness</th>
+			<th>Track</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for departure in north_station_departures %}
+			<tr>
+				{# Origin #}
+				<td>{{ departure.1 }}</td>
+				
+				{# Trip #}					
+				<td>{{ departure.2 }}</td>
+				
+				{# Destination #}					
+				<td>{{ departure.3 }}</td>
+				
+				{# Scheduled Time #}					
+				<td>{# departure.4|print_timestamp | date:"g:i A" #}</td>
+				
+				{# Lateness #}
+				<td>{# departure.5|print_lateness #}</td>
+				
+				{# Track #}
+				<td>{{ departure.6 }}</td>
+				
+				{# Status #}
+				<td>{{ departure.7 }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

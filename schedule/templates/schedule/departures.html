@@ -11,45 +11,14 @@
 {% endblock %}
 
 {% block body %}
-	<h1>North Station Departure Board</h1>
+	<h1>Departure Board</h1>
 	<h2>Last Updated {{ timestamp|print_timestamp }}</h2>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Origin</th>	
-				<th>Trip</th>
-				<th>Destination</th>			
-				<th>Scheduled Time</th>
-				<th>Lateness</th>
-				<th>Track</th>
-				<th>Status</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for departure in north_station_departures %}
-				<tr>
-					{# Origin #}
-					<td>{{ departure.1 }}</td>
-					
-					{# Trip #}					
-					<td>{{ departure.2 }}</td>
-					
-					{# Destination #}					
-					<td>{{ departure.3 }}</td>
-					
-					{# Scheduled Time #}					
-					<td>{{ departure.4|print_timestamp | date:"g:i A" }}</td>
-					
-					{# Lateness #}
-					<td>{{ departure.5|print_lateness }}</td>
-					
-					{# Track #}
-					<td>{{ departure.6 }}</td>
-					
-					{# Status #}
-					<td>{{ departure.7 }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+	<h3>North Station</h3>
+	{% with data=north_station_departures %}
+		{% include 'schedule/board.html' %}
+	{% endwith %}
+	<h3>South Station</h3>
+	{% with data=north_station_departures %}
+		{% include 'schedule/board.html' %}
+	{% endwith %}
 {% endblock %}
