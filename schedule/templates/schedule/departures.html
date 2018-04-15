@@ -12,13 +12,13 @@
 
 {% block body %}
 	<h1>Departure Board</h1>
-	<h2>Last Updated {{ timestamp|print_timestamp }}</h2>
+	<h2>Last Updated <span id="timestamp"></span></h2>
 	<h3>North Station</h3>
-	{% with data=north_station_departures %}
+	{% with table_id="northStationTable" %}
 		{% include 'schedule/board.html' %}
 	{% endwith %}
 	<h3>South Station</h3>
-	{% with data=north_station_departures %}
+	{% with table_id="southStationTable" %}
 		{% include 'schedule/board.html' %}
 	{% endwith %}
 {% endblock %}

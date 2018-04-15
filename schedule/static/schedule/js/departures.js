@@ -1,27 +1,52 @@
 $( document ).ready(function() {
-	window.setInterval(function(){
-  		updateBoards()
+	// window.setInterval(function(){
+  	updateBoards()
   		//alert("Updating boards");
-	}, 5000);
+	// }, 5000);
 });
 
 function updateBoards(){
-    // $.get("http://developer.mbta.com/lib/gtrtfs/Departures.csv", dataType="jsonp", function(data, status){
-    //     alert("Data: " + data + "\nStatus: " + status);
-    // });
-
     $.ajax({
 	    type: 'GET',
-	    // dataType: "json",
-	    crossDomain: true,
-	    url: "http://developer.mbta.com/lib/gtrtfs/Departures.csv",
+	    dataType: "json",
+	    url: "api/",
 	    success: function (responseData, textStatus, jqXHR) {
 	        console.log("in");
-	        // var data = JSON.parse(responseData['AuthenticateUserResult']);
-	        console.log(data);
-	    },
+	        var trHTMLNorth = '';
+	        var trHTMLSouth = '';
+	        var timestamp = responseData["North Station"][0].TimeStamp
+
+	        $.each(responseData["North Station"], function (i, departure) {
+	            trHTMLNorth += 
+	            '<tr>' +
+	            '<td>' + departure.Origin + '</td>' +
+	            '<td>' + departure.Trip + '</td>' +
+	            '<td>' + departure.Destination + '</td>' + 
+	            '<td>' + departure.ScheduledTime + '</td>' + 
+	            '<td>' + departure.Lateness + '</td>' + 
+	            '<td>' + departure.Track + '</td>' + 
+	            '<td>' + departure.Status + '</td>' + 
+	            '</tr>';
+	        });
+
+	        $.each(responseData["South Station"], function (i, departure) {
+	            trHTMLSouth += 
+	            '<tr>' +
+	            '<td>' + departure.Origin + '</td>' +
+	            '<td>' + departure.Trip + '</td>' +
+	            '<td>' + departure.Destination + '</td>' + 
+	            '<td>' + departure.ScheduledTime + '</td>' + 
+	            '<td>' + departure.Lateness + '</td>' + 
+	            '<td>' + departure.Track + '</td>' + 
+	            '<td>' + departure.Status + '</td>' + 
+	            '</tr>';
+	        });
+	        $('#northStationTable').find('tbody:last').append(trHTMLNorth)
+	        $('#southStationTable').find('tbody:last').append(trHTMLSouth)
+	        $('#timestamp').text(timestamp);
+		},
 	    error: function (responseData, textStatus, errorThrown) {
-	        console.log("GET failed");
+	        console.log("GET failed " + textStatus);
 	    }
 	});
 };

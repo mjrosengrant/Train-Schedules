@@ -18,8 +18,9 @@ class DepartureAPIWrapper(object):
     STATUS = "Status"
 
     def get_station_departures(self):
+        """Returns all departures organized by the Origin"""
         departures_csv = self._retrieve_csv()
-        departures_json = json.loads(self._transform_csv_to_json(departures_csv))
+        departures_json = json.loads(self._csv_to_json(departures_csv))
 
         api_output = {
             self.NORTH_STATION: [],
@@ -45,7 +46,7 @@ class DepartureAPIWrapper(object):
         return response.content
 
 
-    def _transform_csv_to_json(self, departures_csv):
+    def _csv_to_json(self, departures_csv):
         """Converts csv into more usable json format."""
         reader = csv.DictReader(io.StringIO(unicode(departures_csv)))
         json_data = json.dumps(list(reader))
