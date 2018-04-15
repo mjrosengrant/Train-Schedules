@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import csv
 import datetime
+import json
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -27,4 +28,4 @@ def departure_api_view(request):
     """Get data from MBTA Website."""
     api_wrapper = DepartureAPIWrapper()
     data = api_wrapper.get_station_departures()
-    return HttpResponse(data)
+    return HttpResponse(json.dumps(data))
