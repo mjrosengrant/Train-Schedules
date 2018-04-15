@@ -1,11 +1,17 @@
 {% extends 'schedule/base.html' %}
 
 {% block html-title %}Departure Board{% endblock%}
-{% load print_timestamp %}
+
 {% load departure_filters %}
+{% load static %}
+
+{% block head %}
+	{{ block.super }}
+	<script src="{% static 'schedule/js/departures.js' %}"></script>
+{% endblock %}
 
 {% block body %}
-	<h1>Departure Board</h1>
+	<h1>North Station Departure Board</h1>
 	<h2>Last Updated {{ timestamp|print_timestamp }}</h2>
 	<table class="table table-striped">
 		<thead>
@@ -20,7 +26,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for departure in departures %}
+			{% for departure in north_station_departures %}
 				<tr>
 					{# Origin #}
 					<td>{{ departure.1 }}</td>
