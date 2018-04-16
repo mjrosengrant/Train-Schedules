@@ -2,7 +2,7 @@
 $( document ).ready(function() {
     window.setInterval(function(){
         updateBoards();
-    }, 5000);
+    }, 15000);
 });
 
 function updateBoards(){
