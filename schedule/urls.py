@@ -1,9 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 
 from schedule import views
 
-
+app_name = 'schedule'
 urlpatterns = [
-    url(r'^$', views.DepartureView.as_view(), name="departures"),
-    url(r'^api/$', views.station_departure_api_view, name="api"),
+    path(r'^$', views.DepartureView.as_view(), name="departures"),
+    path(r'^api/$', views.station_departure_api_view, name="api"),
 ]
